@@ -1,16 +1,9 @@
 # j_reproductor_app
+<!-- https://en.wikipedia.org/wiki/Markdown -->
+<!-- https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes  -->
+Disenos de Aplicaion para Reproductor de Musica
 
-A new Flutter project.
+## Appearance Application
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Appearance 1](appearance/1.png) 
+ 

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Music Player',
         theme: miTema,
-        home: MusicPlayerPage()
+        home: const MusicPlayerPage()
       ),
     );
   }

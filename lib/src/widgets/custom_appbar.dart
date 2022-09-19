@@ -8,22 +8,22 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        margin: EdgeInsets.only( top: 10 ),
-        padding: EdgeInsets.symmetric( horizontal: 20 ),
+        margin: const EdgeInsets.only( top: 10 ),
+        padding: const EdgeInsets.symmetric( horizontal: 20 ),
         child: Row(
-          children: <Widget>[
+          children: const <Widget>[
 
             Icon( FontAwesomeIcons.chevronLeft ),
 
             Spacer(),
 
-            Icon( FontAwesomeIcons.commentAlt ),
+            Icon( FontAwesomeIcons.comment ),
             SizedBox( width: 20 ),
 
-            Icon( FontAwesomeIcons.headphonesAlt ),
+            Icon( FontAwesomeIcons.headphones ),
             SizedBox( width: 20 ),
 
-            Icon( FontAwesomeIcons.externalLinkAlt ),
+            Icon( FontAwesomeIcons.link ),
 
           ],
         )

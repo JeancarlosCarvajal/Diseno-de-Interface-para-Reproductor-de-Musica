@@ -1,16 +1,18 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:flutter/material.dart';
 
 class AudioPlayerModel  with ChangeNotifier {
 
   bool _playing = false;
-  Duration _songDuration = new Duration( milliseconds: 0 );
-  Duration _current      = new Duration( milliseconds: 0 );
+  Duration _songDuration = const Duration( milliseconds: 0 );
+  Duration _current      = const Duration( milliseconds: 0 );
 
 
   String get songTotalDuration => this.printDuration( this._songDuration );
-  String get currentSecond     => this.printDuration( this._current );
+  String get currentSecond     => this.printDuration( this._current ); 
 
-  double get porcentaje => ( this._songDuration.inSeconds > 0) 
+  double get porcentaje => ( this._songDuration.inSeconds > 0 ) 
                             ?  this._current.inSeconds / this._songDuration.inSeconds
                             : 0;
 
@@ -39,6 +41,8 @@ class AudioPlayerModel  with ChangeNotifier {
     this._current = valor;
     notifyListeners();
   }
+
+  Duration get restTimeSong => (this._songDuration - this._current);
 
 
   String printDuration(Duration duration) {

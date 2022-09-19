@@ -1,13 +1,16 @@
+// ignore_for_file: unnecessary_this
 import 'package:animate_do/animate_do.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:j_reproductor_app/src/helpers/helpers.dart';
 import 'package:j_reproductor_app/src/models/audioplayer_model.dart';
 import 'package:j_reproductor_app/src/widgets/custom_appbar.dart';
 import 'package:provider/provider.dart';
 
-
 class MusicPlayerPage extends StatelessWidget {
+  const MusicPlayerPage({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +18,18 @@ class MusicPlayerPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
 
-          Background(),
+          const Background(),
 
           Column(
             children: <Widget>[
 
               CustomAppBar(),
 
-              ImagenDiscoDuracion(),
+              const ImagenDiscoDuracion(),
 
-              TituloPlay(),
+              const TituloPlay(),
 
-              Expanded(
+              const Expanded(
                 child: Lyrics()
               )
 
@@ -39,6 +42,8 @@ class MusicPlayerPage extends StatelessWidget {
 }
 
 class Background extends StatelessWidget {
+  const Background({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +52,8 @@ class Background extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: screenSize.height * 0.65,
-      decoration: BoxDecoration(
+      height: screenSize.height * 0.70,
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only( bottomLeft: Radius.circular(60)),
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
@@ -64,6 +69,8 @@ class Background extends StatelessWidget {
 }
 
 class Lyrics extends StatelessWidget {
+  const Lyrics({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +78,10 @@ class Lyrics extends StatelessWidget {
     final lyrics = getLyrics();
 
     return Container(
-      color: Color.fromARGB(255, 32, 32, 32),
-      margin: EdgeInsets.only(top: 10),
+      // color: const Color.fromARGB(255, 32, 32, 32),
+      margin: const EdgeInsets.only(top: 10),
       child: ListWheelScrollView( 
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         itemExtent: 42,
         diameterRatio: 1.5,
         children: lyrics.map( 
@@ -86,6 +93,8 @@ class Lyrics extends StatelessWidget {
 }
 
 class TituloPlay extends StatefulWidget {
+  const TituloPlay({Key? key}) : super(key: key);
+
 
   @override
   _TituloPlayState createState() => _TituloPlayState();
@@ -95,16 +104,16 @@ class _TituloPlayState extends State<TituloPlay> with SingleTickerProviderStateM
 
   bool isPlaying = false;
   bool firstTime = true;
-  late AnimationController playAnimation;
-
-
+  late AnimationController playAnimation; 
+ 
   final assetAudioPlayer = new AssetsAudioPlayer();
-
-
+ 
   @override
-  void initState() {
-    
-    playAnimation = AnimationController( vsync: this, duration: Duration(milliseconds: 500 ) );
+  void initState() { 
+    // final audioPlayerModel = Provider.of<AudioPlayerModel>(context, listen: false);
+    this.playAnimation = AnimationController( vsync: this, duration: const Duration(milliseconds: 500 ) );  
+    // audioPlayerModel.controller = playAnimation;
+    // playAnimation.forward();
     super.initState();
   }
 
@@ -120,69 +129,78 @@ class _TituloPlayState extends State<TituloPlay> with SingleTickerProviderStateM
 
     //! assetAudioPlayer.open('assets/Breaking-Benjamin-Far-Away.mp3');
     assetAudioPlayer.open(
-      Audio('assets/Breaking-Benjamin-Far-Away.mp3'),
+      Audio('assets/Mariposa-Traicionera-Video-Oficial.mp3'),
       autoStart: true,
       showNotification: true
     );
 
     assetAudioPlayer.currentPosition.listen( (duration) {
       audioPlayerModel.current = duration;
+      // print('jean: $duration');
     });
   
     assetAudioPlayer.current.listen( (playingAudio){
       //! audioPlayerModel.songDuration = playingAudio.duration;
-      audioPlayerModel.songDuration = playingAudio?.audio.duration ?? Duration(seconds: 0);
-    });
-
-
+      audioPlayerModel.songDuration = playingAudio?.audio.duration ?? const Duration(seconds: 0);
+      print('jean: ${playingAudio?.audio.duration}'); 
+    }); 
+ 
   }
 
 
   @override
   Widget build(BuildContext context) {
+    final audioPlayerModel = Provider.of<AudioPlayerModel>(context, listen: false); 
+    // playAnimation = audioPlayerModel.controller;  
+
     return Container(
-      padding: EdgeInsets.symmetric( horizontal: 50 ),
-      margin: EdgeInsets.only( top: 20 ),
+      padding: const EdgeInsets.symmetric( horizontal: 50 ),
+      margin: const EdgeInsets.only( top: 20 ),
       child: Row(
         children: <Widget>[
+
           Column(
             children: <Widget>[
-              Text('Far Away', style: TextStyle( fontSize: 30, color: Colors.white.withOpacity(0.8) )),
-              Text('-Breaking Benjamin-', style: TextStyle( fontSize: 15, color: Colors.white.withOpacity(0.5) )),
+              Text('Mariposa Traicionera', style: TextStyle( fontSize: 20, color: Colors.white.withOpacity(0.8) )),
+              Text('-Mana-', style: TextStyle( fontSize: 15, color: Colors.white.withOpacity(0.5) )),
             ],
           ),
 
-          Spacer(),
+          const Spacer(),
 
           FloatingActionButton(
             elevation: 3,
-            splashColor: Color.fromARGB(255, 255, 8, 8),
+            splashColor: const Color.fromARGB(255, 255, 8, 8),
             // highlightElevation: 0,
-            backgroundColor: Color.fromARGB(255, 21, 173, 13),
+            backgroundColor: const Color.fromARGB(255, 21, 173, 13),
             child: AnimatedIcon(
               icon: AnimatedIcons.play_pause, 
               progress: playAnimation,
             ),
             onPressed: () {
 
-              final audioPlayerModel = Provider.of<AudioPlayerModel>(context, listen: false);
+              if (kDebugMode) {
+                // print('jean: dandole Play');
+                print('jean: Play y quedan ${audioPlayerModel.restTimeSong} segundos'); 
+              }
               
-              if( this.isPlaying ) {
+              if( isPlaying ) {
                 playAnimation.reverse();
-                this.isPlaying = false;
-                audioPlayerModel.controller.stop();
-
+                this.isPlaying = false; 
+                audioPlayerModel.playing = false;
+                audioPlayerModel.controller.stop();  
               } else {
                 playAnimation.forward();
-                this.isPlaying = true;
-                audioPlayerModel.controller.repeat();
+                this.isPlaying = true; 
+                audioPlayerModel.playing = true;
+                audioPlayerModel.controller.repeat();   
               }
 
               if ( firstTime ) {
-                this.open();
+                this.open(); 
                 firstTime = false;
               } else {
-                assetAudioPlayer.playOrPause();
+                assetAudioPlayer.playOrPause(); 
               }
 
             },
@@ -195,14 +213,16 @@ class _TituloPlayState extends State<TituloPlay> with SingleTickerProviderStateM
 }
 
 class ImagenDiscoDuracion extends StatelessWidget {
+  const ImagenDiscoDuracion({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric( horizontal: 30 ),
-      margin: EdgeInsets.only( top: 40 ),
+      padding: const EdgeInsets.symmetric( horizontal: 30 ),
+      margin: const EdgeInsets.only( top: 40 ),
       child: Row(
-        children: <Widget>[
+        children: const <Widget>[
 
           ImagenDisco(),
  
@@ -217,6 +237,8 @@ class ImagenDiscoDuracion extends StatelessWidget {
 }
 
 class BarraProgreso extends StatelessWidget {
+  const BarraProgreso({Key? key}) : super(key: key);
+
  
   @override
   Widget build(BuildContext context) {
@@ -226,64 +248,88 @@ class BarraProgreso extends StatelessWidget {
     final audioPlayerModel = Provider.of<AudioPlayerModel>(context);
     final porcentaje = audioPlayerModel.porcentaje;
 
-    return Container( 
-      child: Column(
+    return Column(
 
-        children: <Widget>[
+      children: <Widget>[
 
-          Text('${ audioPlayerModel.songTotalDuration }', style: estilo), 
-          SizedBox( height: 10 ),
-          Stack(
-            children: <Widget>[
+        Text(audioPlayerModel.songTotalDuration, style: estilo), 
+        const SizedBox( height: 10 ),
+        Stack(
+          children: <Widget>[
 
-              Container(
+            Container(
+              width: 3,
+              height: 230,
+              color: Colors.white.withOpacity(0.1),
+            ),
+
+            Positioned(
+              bottom: 0,
+              child: Container(
                 width: 3,
-                height: 230,
-                color: Colors.white.withOpacity(0.1),
+                height: 230 * porcentaje,
+                color: Colors.white.withOpacity(0.8),
               ),
+            ),
 
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  width: 3,
-                  height: 230 * porcentaje,
-                  color: Colors.white.withOpacity(0.8),
-                ),
-              ),
-
-            ],
-          ),
-          SizedBox( height: 10 ),
-          Text('${ audioPlayerModel.currentSecond }', style: estilo ),
-        ],
-      ),
+          ],
+        ),
+        const SizedBox( height: 10 ),
+        Text(audioPlayerModel.currentSecond, style: estilo ),
+      ],
     );
   }
 }
 
 class ImagenDisco extends StatelessWidget {
+  const ImagenDisco({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
 
-    final audioPlayerModel = Provider.of<AudioPlayerModel>(context);
+    final audioPlayerModel = Provider.of<AudioPlayerModel>(context); 
+    print('jean is playing: ${audioPlayerModel.porcentaje}'); 
+    
+    audioPlayerModel.playing
+      ? audioPlayerModel.controller.status == AnimationStatus.completed ? audioPlayerModel.controller.repeat() : false
+      : false; 
 
+    audioPlayerModel.porcentaje == 1.0 
+      ? audioPlayerModel.controller.stop()
+      : false;
+
+    // final status = audioPlayerModel.playing ? print('jean: en Corriendo') : print('jean: Parado'); 
+    
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       width: 250,
       height: 250,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(200),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          colors: [
+
+            Color(0xff484750),
+            Color(0xff1E1C24),
+
+          ]
+        )
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(200),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-
+            
             SpinPerfect(
-              duration: Duration( seconds: 10 ),
-              infinite: true,
-              manualTrigger: true,
+              animate: audioPlayerModel.playing,
+              duration: Duration(seconds: 10), // audioPlayerModel.current
+              infinite:  true,
+              manualTrigger:  true,
               controller: ( animationController ) => audioPlayerModel.controller = animationController,
-              child: Image( image: AssetImage('assets/aurora.jpg') )
+              child: const Image( image: AssetImage('assets/mana.jpg') )
             ),
 
             Container(
@@ -299,22 +345,12 @@ class ImagenDisco extends StatelessWidget {
               width: 18,
               height: 18,
               decoration: BoxDecoration(
-                color: Color(0xff1C1C25),
+                color: const Color(0xff1C1C25),
                 borderRadius: BorderRadius.circular(100)
               ),
             ),
 
           ],
-        )
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(200),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          colors: [
-            Color(0xff484750),
-            Color(0xff1E1C24),
-          ]
         )
       ),
     );
